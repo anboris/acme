@@ -1,0 +1,3 @@
+#!/usr/local/plan9/bin/rc
+cp -r lucg $PLAN9/font
+cp -r lucmono $PLAN9/font
