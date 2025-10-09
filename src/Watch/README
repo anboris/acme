@@ -1,0 +1,3 @@
+go install 9fans.net/go/acme/Watch@latest
+
+Documentation: https://pkg.go.dev/9fans.net/go/acme/Watch
