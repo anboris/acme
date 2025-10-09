@@ -1,0 +1,15 @@
+Apply:
+cd /usr/local/plan9/src/cmd/acme
+patch text.c < /Users/andrew/src/acme/patch/text.c.*.diff
+patch rows.c < /Users/andrew/src/acme/patch/rows.c.*.diff
+mk install
+
+Undo:
+patch -R text.c < /Users/andrew/src/acme/patch/text.c.*.diff
+patch -R rows.c < /Users/andrew/src/acme/patch/rows.c.*.diff
+
+Index:
+text.c.1.diff	prevents listing hidden dot files
+text.c.2.diff	adds basic cursor movement
+text.c.3.diff	adds Cmd+S save/put binding
+rows.c.1.diff	adds "Load" command

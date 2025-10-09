@@ -1,0 +1,19 @@
+--- src/cmd/acme/rows.c
++++ src/cmd/acme/rows.c
+@@ -17,6 +17,7 @@
+ 	'N', 'e', 'w', 'c', 'o', 'l', ' ',
+ 	'K', 'i', 'l', 'l', ' ',
+ 	'P', 'u', 't', 'a', 'l', 'l', ' ',
++	'L', 'o', 'a', 'd', ' ',
+ 	'D', 'u', 'm', 'p', ' ',
+ 	'E', 'x', 'i', 't', ' ',
+ 	0
+@@ -43,7 +44,7 @@
+ 	r1.min.y = r1.max.y;
+ 	r1.max.y += Border;
+ 	draw(screen, r1, display->black, nil, ZP);
+-	textinsert(t, 0, Lcolhdr, 29, TRUE);
++	textinsert(t, 0, Lcolhdr, 33, TRUE);
+ 	textsetselect(t, t->file->b.nc, t->file->b.nc);
+ }
+
