@@ -62,7 +62,7 @@
  	textshow(t, t->q0, t->q0, 1);
  	switch(r){
 -	case 0x06:	/* ^F: complete */
-+	case 0x18:	/* ^X: complete */
++	case 0x0B:	/* ^K: complete */
  	case Kins:
  		typecommit(t);
  		rp = textcomplete(t);
