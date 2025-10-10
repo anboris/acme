@@ -10,6 +10,7 @@ Note that a relative file paths use os.UserCacheDir(), so on Linux
 Install the latest releases:
 GO111MODULE=on go install 9fans.net/acme-lsp/cmd/acme-lsp@latest
 GO111MODULE=on go install 9fans.net/acme-lsp/cmd/L@latest
+GO111MODULE=on go install 9fans.net/acme-lsp/cmd/acmefocused@latest
 GO111MODULE=on go install golang.org/x/tools/gopls@latest
 
 Full option list:

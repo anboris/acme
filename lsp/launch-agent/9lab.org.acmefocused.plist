@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <keyacmefocused>Label</key>
+  <string>9lab.org.acmefocused</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/andrew/go/bin/acmefocused</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PLAN9</key>
+    <string>/usr/local/plan9</string>
+    <key>PATH</key>
+    <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/plan9/bin:/opt/local/bin:/opt/local/sbin:/Users/andrew/go/bin</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/usr/local/var/log/9lab/acmefocused.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/usr/local/var/log/9lab/acmefocused.err.log</string>
+</dict>
+</plist>
