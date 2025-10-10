@@ -1,0 +1,16 @@
+gg – tiny git-grep wrapper that always speaks Acme
+
+gg runs git-grep(1) from the root of the current Git repository and
+rewrites every file name so it is relative to the directory in which
+gg is executed.  The output is a sequence of lines of the form
+
+	path:line:text
+
+suitable for middle-clicking in an Acme window.  If standard input
+is a pipe (as when Acme runs Edit . >gg) the pattern is read from
+the first line of standard input; otherwise the pattern is taken
+from the first argument.  No other options are accepted; all git-grep
+selection is done with the default set of tracked files.
+
+gg exits immediately with status 0 if any matches are found, 1 if
+none are found, and 2 on error.
