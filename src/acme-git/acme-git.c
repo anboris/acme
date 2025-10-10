@@ -27,7 +27,7 @@ deletestatus(Status *s)
 		if(c->extra)
 			free(c->extra);
 		free(c);
-		c = n;		
+		c = n;
 	}
 }
 
@@ -165,7 +165,7 @@ gitpipetowin(char *argv[])
 void
 gitlog(void)
 {
-	char *argv[] = { "git", "log", nil };
+	char *argv[] = { "git", "log", "--pretty=format:%h%x09%s", nil };
 	gitpipetowin(argv);
 }
 
@@ -217,7 +217,7 @@ void
 mkwin(void)
 {
 	char pwd[1024];
-	
+
 	win = newwin();
 	winprint(win, "ctl", "cleartag\n");
 	winprint(win, "tag", " Log Status Commit Push");
@@ -269,7 +269,7 @@ eventloop(void)
 			break;
 		case Ccommit:
 			gitcommit();
-			break;	
+			break;
 		case Cpush:
 			gitpush();
 			break;
