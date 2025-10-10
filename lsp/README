@@ -1,0 +1,18 @@
+acme-lsp – plug a language server into acme
+
+Copy config.toml to $HOME/.config/acme−lsp/config.toml on Linux
+$HOME/Library/Application Support/acme-lsp/config.toml on macOS
+
+Note that a relative file paths use os.UserCacheDir(), so on Linux
+"some.log" resolves to "$HOME/.cache/acme-lsp/some.log" and on macOS
+"some.log" resolves to "$HOME/Library/Caches/acme-lsp/some.log"
+
+Install the latest releases:
+GO111MODULE=on go install 9fans.net/acme-lsp/cmd/acme-lsp@latest
+GO111MODULE=on go install 9fans.net/acme-lsp/cmd/L@latest
+GO111MODULE=on go install golang.org/x/tools/gopls@latest
+
+Full option list:
+https://godoc.org/github.com/fhs/acme-lsp/internal/lsp/acmelsp/config#File
+
+Source: https://github.com/fhs/acme-lsp
