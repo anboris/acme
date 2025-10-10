@@ -1,0 +1,23 @@
+#!/bin/sh
+9
+
+MANPAGER=nobs
+PAGER=nobs
+SHELL=rc
+TERM=dumb
+
+if pgrep plumber
+then
+	echo plumber is running
+else
+	echo starting plumber
+	plumber
+fi
+
+nohup acme -a \
+	-f $PLAN9/font/lucg/lucg.15.font \
+	-F $PLAN9/font/lucmono/lucmono.15.font "$@" \
+	>/dev/null 2>&1 &
+
+sleep 1
+exit

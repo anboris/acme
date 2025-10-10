@@ -1,0 +1,9 @@
+app – wrap acme in a macOS .app bundle
+
+app bundles a running-acme script into Acme.app so you can keep
+acme in the Dock.  Run mk; the bundle appears in the current
+directory.  Nothing else to configure.
+
+This code is taken (touched only to simplify) from
+https://github.com/lufia/acmeedit for ease of use and safekeeping.
+All credit goes to the original author.
