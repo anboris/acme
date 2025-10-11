@@ -1,0 +1,4 @@
+Acme helper scripts
+
+Before installing make sure /usr/local/bin is writable:
+	sudo install -d -o $(whoami) -g staff /usr/local/bin

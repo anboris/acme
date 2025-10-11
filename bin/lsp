@@ -1,0 +1,84 @@
+#!/usr/local/plan9/bin/rc
+# lsp — control script for Acme-related launch agents
+#
+# This script provides a simple rc(1) interface to manage Acme helper
+# services installed via launchd. It supports:
+#
+# lis – show loaded agents
+# start – load agent property lists
+# stop – unload agent property lists
+# restart – reload all agents
+# logclear – truncate log files defined in plist
+#
+# Taken from https://9lab.org/9port/acme-with-lsp. I am not the
+# original author — only preserving and adapting it for convenience.
+#
+# Requires /usr/local/plan9/bin/rc and a working launchctl(1).
+
+fn Help {
+	echo `{basename $0}^' [list|stop|start|restart|logclear]'
+}
+
+fn List {
+	launchctl list | grep '9lab.org.acme'
+}
+
+fn PropertyLists {
+	launchctl dumpstate | grep 'path = .*9lab.org.acme.*.plist$' | ssam 's/^.* = //g'
+}
+
+fn Restart {
+	for(p in `{PropertyLists}) {
+		launchctl unload -w $p
+		launchctl load -w $p
+	}
+}
+
+fn Stop {
+	for(p in `{PropertyLists}) {
+		launchctl unload -w $p
+	}
+}
+
+fn Start {
+	for(p in `{PropertyLists}) {
+		launchctl load -w $p
+	}
+}
+
+fn LogClear {
+	for(p in `{PropertyLists}) {
+		# Extract log files from .plist launch agent definition:
+		#
+		#	<key>StandardOutPath</key>
+		#	<string>/usr/local/var/log/9lab/acmefocused.out.log</string>
+		#	<key>StandardErrorPath</key>
+		#	<string>/usr/local/var/log/9lab/acmefocused.err.log</string>
+		#
+		logs=`{cat $p | grep '\.log' | awk -F '[<|>]' '{print $3}'}
+		for(l in $logs) {
+			echo 'Truncating log file ">'^$l^'"'
+			>$l
+		}
+	}
+}
+
+switch ($#*) {
+	case 0
+		Help
+	case *
+		switch ($1) {
+			case list
+				List
+			case start
+				Start
+			case stop
+				Stop
+			case restart
+				Restart
+			case logclear
+				LogClear
+			case *
+				Help
+		}
+}
