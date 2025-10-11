@@ -3,8 +3,8 @@ BIN := $(shell command -v $(NAME) 2>/dev/null || echo $(HOME)/go/bin/$(NAME))
 AGENTD := $(HOME)/Library/LaunchAgents
 LOG := /usr/local/var/log/9lab
 
-PLIST1 := 9lab.org.acme-lsp.plist
-PLIST2 := 9lab.org.acmefocused.plist
+PLISTS := 9lab.org.acme-lsp.plist 9lab.org.acmefocused.plist
+PLIST_PATHS := $(addprefix $(AGENTD)/,$(PLISTS))
 
 ifeq ($(shell uname),Darwin)
 all: load
@@ -14,26 +14,32 @@ all:
 endif
 
 $(LOG):
-	sudo mkdir -p $@
-	sudo chown $(USER) $@
+	@sudo mkdir -p $@
+	@sudo chown $(USER) $@
+	@echo "Created log directory: $@"
 
-$(AGENTD)/$(PLIST1): $(PLIST1) | $(LOG)
-	mkdir -p $(AGENTD)
-	cp $< $@
+$(AGENTD):
+	@mkdir -p $@
+	@echo "Ensured LaunchAgents directory: $@"
 
-$(AGENTD)/$(PLIST2): $(PLIST2) | $(LOG)
-	mkdir -p $(AGENTD)
-	cp $< $@
+$(AGENTD)/%: % | $(AGENTD) $(LOG)
+	@cp $< $@
+	@echo "Installed $< → $@"
 
-load: $(AGENTD)/$(PLIST1) $(AGENTD)/$(PLIST2)
-	launchctl bootstrap gui/$(shell id -u) $(AGENTD)/$(PLIST1)
-	launchctl bootstrap gui/$(shell id -u) $(AGENTD)/$(PLIST2)
+load: $(PLIST_PATHS)
+	@for plist in $(PLIST_PATHS); do \
+		echo "Loading $$plist"; \
+		launchctl load -w $$plist || echo "Failed to load $$plist"; \
+	done
 
 unload:
-	launchctl unload $(AGENTD)/$(PLIST1) 2>/dev/null || true
-	launchctl unload $(AGENTD)/$(PLIST2) 2>/dev/null || true
+	@for plist in $(PLIST_PATHS); do \
+		echo "Unloading $$plist"; \
+		launchctl unload -w $$plist 2>/dev/null || true; \
+	done
 
 clean: unload
-	rm -f $(AGENTD)/$(PLIST1) $(AGENTD)/$(PLIST2)
+	@rm -f $(PLIST_PATHS)
+	@echo "Cleaned up LaunchAgents."
 
 .PHONY: all load unload clean
