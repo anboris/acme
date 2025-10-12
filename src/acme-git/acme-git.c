@@ -183,6 +183,12 @@ gitpush(void)
 	gitpipetowin(argv);
 }
 
+void
+webdiff(void)
+{
+	char *argv[] = { "git", "webdiff", nil };
+	gitpipetowin(argv);
+}
 
 void
 gitcdroot(void)
@@ -220,7 +226,7 @@ mkwin(void)
 
 	win = newwin();
 	winprint(win, "ctl", "cleartag\n");
-	winprint(win, "tag", " Log Status Commit Push");
+	winprint(win, "tag", " Log Status Commit Push Web");
 	winname(win, "%s/+Git", getwd(pwd, 1024));
 }
 
@@ -241,6 +247,8 @@ getcmd(Event *e)
 			cmd = Ccommit;
 		else if(!strcmp(e->text, "Push"))
 			cmd = Cpush;
+		else if(!strcmp(e->text, "Web"))
+			cmd = Cweb;
 	}
 	return cmd;
 }
@@ -272,6 +280,9 @@ eventloop(void)
 			break;
 		case Cpush:
 			gitpush();
+			break;
+		case Cweb:
+			webdiff();
 			break;
 		default:
 			winwriteevent(win, e);

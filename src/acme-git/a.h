@@ -13,7 +13,8 @@ enum
 	Cstatus,
 	Clog,
 	Ccommit,
-	Cpush
+	Cpush,
+	Cweb
 };
 
 extern Win *win;
