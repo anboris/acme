@@ -11,12 +11,22 @@ import (
 )
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	if !scanner.Scan() {
-		log.Fatalf("no pattern supplied")
+	var pattern string
+
+	stat, _ := os.Stdin.Stat()
+	if (stat.Mode() & os.ModeCharDevice) == 0 {
+		in := bufio.NewScanner(os.Stdin)
+		if in.Scan() {
+			pattern = strings.TrimSpace(in.Text())
+		}
+	} else {
+		if len(os.Args) < 2 {
+			fmt.Fprintln(os.Stderr, "usage: gg <pattern>")
+			os.Exit(1)
+		}
+		pattern = strings.TrimSpace(os.Args[1])
 	}
 
-	pattern := strings.TrimSpace(scanner.Text())
 	if pattern == "" {
 		log.Fatalf("empty pattern")
 	}
@@ -42,7 +52,7 @@ func main() {
 		log.Fatalf("git grep start: %v", err)
 	}
 
-	scanner = bufio.NewScanner(out)
+	scanner := bufio.NewScanner(out)
 	for scanner.Scan() {
 		line := scanner.Text()
 		parts := strings.SplitN(line, ":", 3)
