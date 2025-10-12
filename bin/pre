@@ -6,11 +6,30 @@
 # it using Prettier.
 #
 # Usage in Acme:
-# 	Edit .|pre
-# 	Edit ,|pre
+#	Edit .|pre
+#	Edit ,|pre
 #
 # Requires /usr/local/plan9/bin/rc, 9p(1) access to Acme windows, and
 # Prettier with the appropriate parser/plugin installed.
+#
+# Prettier installation (global):
+#	npm install --global prettier prettier-plugin-go-template
+#
+# Example Prettier configuration (~/.prettierrc):
+# {
+#   "plugins": ["/usr/local/node/lib/node_modules/prettier-plugin-go-template/lib/index.js"],
+#   "overrides": [
+#     {
+#       "files": ["*.html", "*.gohtml", "*.gotmpl"],
+#       "options": {
+#         "parser": "go-template"
+#       }
+#     }
+#   ]
+# }
+#
+# This ensures that Go HTML templates are formatted correctly, while
+# other recognized file types are formatted automatically.
 
 . 9.rc
 
