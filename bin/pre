@@ -1,0 +1,47 @@
+#!/usr/local/plan9/bin/rc
+# pre — format selected text in Acme using Prettier
+#
+# This script reads the current Acme window selection or input piped
+# into it, detects the file type from the window’s tag, and formats
+# it using Prettier.
+#
+# Usage in Acme:
+# 	Edit .|pre
+# 	Edit ,|pre
+#
+# Requires /usr/local/plan9/bin/rc, 9p(1) access to Acme windows, and
+# Prettier with the appropriate parser/plugin installed.
+
+. 9.rc
+
+path = (/usr/local/node/bin $path)
+dir=acme/acme/$winid
+
+fn rd {
+	9p read $dir/$1 || { echo 9p read failed >[1=2]; exit readfail }
+}
+
+tag=`{rd tag}
+file=$tag(1)
+if(~ $file '$'*){
+	file=`{eval echo $file}
+	file=$"file
+}
+
+tmp=/tmp/pretty.$pid
+tmpfmt=/tmp/pretty.$pid.fmt
+
+if (~ $file *.gohtml)
+	parserflag=(--parser go-template)
+
+cat >$tmp
+
+if(prettier --stdin-filepath $file $parserflag <$tmp >$tmpfmt >[2]/dev/null)
+{
+	cat $tmpfmt
+}
+if not {
+	echo 'Prettier failed' >[1=2]
+}
+
+rm -f $tmp $tmpfmt
