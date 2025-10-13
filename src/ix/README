@@ -1,0 +1,11 @@
+ix is a tiny helper for Acme that opens or creates a .index file
+for the current project or directory. The index file is intended
+as a lightweight, personal scratch space to keep quick notes, paths,
+and thoughts tied to the current work.
+
+Inside a Git repository it uses the repo root, in the home directory
+it uses ~/.index, and otherwise it uses the current directory. With
+-g it always opens the global index in ~/.index.
+
+It requires plan9port, the plumber daemon running, and plumb in
+your $PATH.
