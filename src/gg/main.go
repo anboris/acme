@@ -41,7 +41,7 @@ func main() {
 		log.Fatalf("cannot get pwd: %v", err)
 	}
 
-	cmd := exec.Command("git", "grep", "-n", "--no-color", pattern)
+	cmd := exec.Command("git", "grep", "-n", "--no-color", "--", pattern)
 	cmd.Dir = root
 	out, err := cmd.StdoutPipe()
 	if err != nil {
