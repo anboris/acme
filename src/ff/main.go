@@ -7,8 +7,16 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strings"
+
+	"github.com/lithammer/fuzzysearch/fuzzy"
 )
+
+type match struct {
+	path  string
+	score int
+}
 
 func main() {
 	var pattern string
@@ -41,7 +49,7 @@ func main() {
 		log.Fatalf("cannot get pwd: %v", err)
 	}
 
-	cmd := exec.Command("find", ".", "-type", "f", "-name", pattern+"*")
+	cmd := exec.Command("git", "ls-files", "--cached", "--others", "--exclude-standard")
 	cmd.Dir = root
 	out, err := cmd.StdoutPipe()
 	if err != nil {
@@ -53,18 +61,33 @@ func main() {
 	}
 
 	scanner := bufio.NewScanner(out)
+	var matches []match
+
 	for scanner.Scan() {
 		line := scanner.Text()
-		absPath := filepath.Clean(filepath.Join(root, line))
-		newPath, err := filepath.Rel(pwd, absPath)
-		if err != nil {
-			continue
+		base := filepath.Base(line)
+
+		score := fuzzy.RankMatch(pattern, base)
+		if score >= 0 {
+			absPath := filepath.Clean(filepath.Join(root, line))
+			newPath, err := filepath.Rel(pwd, absPath)
+			if err != nil {
+				continue
+			}
+			matches = append(matches, match{path: newPath, score: score})
 		}
-		fmt.Println(newPath)
 	}
 
 	if err := scanner.Err(); err != nil {
 		log.Fatalf("reading find output: %v", err)
+	}
+
+	sort.Slice(matches, func(i, j int) bool {
+		return matches[i].score < matches[j].score
+	})
+
+	for _, m := range matches {
+		fmt.Println(m.path)
 	}
 
 	if err := cmd.Wait(); err != nil {
