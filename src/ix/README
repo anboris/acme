@@ -7,5 +7,8 @@ Inside a Git repository it uses the repo root, in the home directory
 it uses ~/.index, and otherwise it uses the current directory. With
 -g it always opens the global index in ~/.index.
 
+The -l flag lists all .index files under the home directory relative
+to the current directory for reference.
+
 It requires plan9port, the plumber daemon running, and plumb in
 your $PATH.

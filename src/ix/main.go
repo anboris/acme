@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -18,6 +19,7 @@ func main() {
 	}
 
 	var global bool
+	var list bool
 	var file string // .index path
 
 	cwd, err := os.Getwd()
@@ -31,7 +33,38 @@ func main() {
 	}
 
 	flag.BoolVar(&global, "g", false, "open global index in home")
+	flag.BoolVar(&list, "l", false, "list all .index files under home")
 	flag.Parse()
+
+	if list {
+		filepath.Walk(home, func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			skipDir := map[string]bool{
+				"Library":      true,
+				"Applications": true,
+				"Movies":       true,
+				"Music":        true,
+				"Pictures":     true,
+				"node_modules": true,
+				"venv":         true,
+			}
+			if info.IsDir() {
+				name := info.Name()
+				if strings.HasPrefix(name, ".") || skipDir[name] {
+					return filepath.SkipDir
+				}
+				return nil
+			}
+			if info.Name() == ".index" {
+				rel, _ := filepath.Rel(cwd, path)
+				fmt.Println(rel)
+			}
+			return nil
+		})
+		return
+	}
 
 	if global {
 		file = filepath.Join(home, ".index")
