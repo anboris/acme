@@ -65,9 +65,9 @@ func main() {
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		base := filepath.Base(line)
+		path := line
 
-		score := fuzzy.RankMatch(pattern, base)
+		score := fuzzy.RankMatch(strings.ToLower(pattern), strings.ToLower(path))
 		if score >= 0 {
 			absPath := filepath.Clean(filepath.Join(root, line))
 			newPath, err := filepath.Rel(pwd, absPath)
