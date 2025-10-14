@@ -1,4 +1,4 @@
-CFG := $(filter-out Makefile, $(wildcard *))
+CFG := $(filter-out Makefile README, $(wildcard *))
 DEST := $(HOME)/.config/skhd
 
 .PHONY: all install clean
