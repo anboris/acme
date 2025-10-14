@@ -1,19 +1,15 @@
-CFG := $(filter-out Makefile README, $(wildcard *))
 DEST := $(HOME)/.config/skhd
+CFG := skhdrc
 
 .PHONY: all install clean
 
-all: $(CFG)
+all: install
 
-install: $(CFG)
-	@echo installing to $(DEST)
-	@for f in $^; do \
-		cp $$f $(DEST); \
-		echo $$f; \
-	done
+install: $(DEST)/$(CFG)
+
+$(DEST)/$(CFG): $(CFG)
+	mkdir -p $(DEST)
+	cp $< $@
 
 clean:
-	@echo removing from $(DEST)
-	@for f in $(CFG); \
-		do rm -f $(DEST)/$$f && echo $$f; \
-	done
+	rm -f $(DEST)/$(CFG)
