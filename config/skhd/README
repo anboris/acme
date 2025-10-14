@@ -1,0 +1,5 @@
+This directory contains my skhd configuration files for skhd.zig
+(https://github.com/jackielii/skhd.zig).
+
+To install the configs, run make install, which copies all files
+to ~/.config/skhd/. To remove them, use make clean.

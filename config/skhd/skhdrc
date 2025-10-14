@@ -1,0 +1,18 @@
+shift + cmd - k [
+	"acme" : /usr/local/plan9/bin/rc -c 'L comp -e | 9p write acme/`{dial unix!`{namespace}/acmefocused}/errors'
+]
+
+shift + cmd - d [
+	"acme" : L def
+]
+
+shift + cmd - h [
+	"acme" :  /usr/local/plan9/bin/rc -c 'L hov | 9p write acme/`{dial unix!`{namespace}/acmefocused}/errors'
+]
+
+shift + cmd - r [
+	  "acme" : /usr/local/plan9/bin/rc -c \
+	  	'9p read acme/`{dial unix!`{namespace}/acmefocused}/tag |\
+	  	refs |\
+	  	9p write acme/`{dial unix!`{namespace}/acmefocused}/errors'
+]
