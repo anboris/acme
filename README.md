@@ -1,7 +1,6 @@
-# Acme
-
-A tangle of tools,\
-Made for Acme’s quiet craft—\
-Use with care and wit.
-
-Sharp edges included.
+<p align="center">
+  <img src="acme.png" alt="screenshot"><br>
+  A tangle of tools,<br>
+  Made for Acme’s quiet craft—<br>
+  Use with care and wit.
+</p>
