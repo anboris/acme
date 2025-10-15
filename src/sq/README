@@ -1,0 +1,11 @@
+sq — minimal SQLite CLI helper
+
+sq reads SQL from stdin and executes it in your project’s SQLite
+database. It automatically detects the DB in the project root (common
+names: app.db, main.db, data.db) or uses any *.db if none match.
+Works inside git repos or standalone directories.
+
+Use -v to show which DB is used.
+
+Designed for Acme and terminal workflows: select SQL, pipe to sq,
+and it runs in the correct DB automatically.
