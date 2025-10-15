@@ -5,6 +5,9 @@ MANPAGER=nobs
 PAGER=nobs
 SHELL=rc
 TERM=dumb
+EDITOR=editinacme
+
+builtin export MANPAGER PAGER SHELL TERM EDITOR
 
 if pgrep plumber
 then
