@@ -11,3 +11,9 @@ type is text
 data matches 'github\.com:([a-zA-Z¡-￿0-9_\-]+)/([a-zA-Z¡-￿0-9_\-]+)(\.git)?'
 plumb to web
 plumb start web http://github.com/$1/$2
+
+# go identifier references in brackets like \[ServeMux], \[Ldate], \[ResponseWriter]
+type is text
+data matches '\\\[([a-zA-Z¡-￿_][a-zA-Z¡-￿0-9_]*)\]'
+plumb to web
+plumb start web https://pkg.go.dev/search?q=$1

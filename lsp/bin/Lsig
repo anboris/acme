@@ -1,2 +1,15 @@
 #!/usr/local/plan9/bin/rc
-exec L sig $*
+exec L sig $* | awk '
+{
+    if (/^&{{markdown /) {
+        gsub(/^&{{markdown /, "")
+        gsub(/}}$/, "")
+        # This is the description line - add blank line before it
+        print ""
+        print
+    } else {
+        # This is the function signature line
+        print
+    }
+}
+' | cat -s

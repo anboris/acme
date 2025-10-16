@@ -1,2 +1,22 @@
 #!/usr/local/plan9/bin/rc
-exec L hov $*
+exec L hov $* | awk '
+/^\[`.*` on pkg\.go\.dev\]/ {
+    # Extract just the URL from the markdown link
+    start = index($0, "(")
+    end = index($0, ")")
+    if (start > 0 && end > start) {
+        url = substr($0, start+1, end-start-1)
+        print url
+    }
+    next
+}
+
+$0 == "---" { next }
+/^```go$/ { next }
+/^```$/ { next }
+
+{
+    gsub(/`/, "")
+    print
+}
+' | cat -s
