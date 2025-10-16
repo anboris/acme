@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	log.SetFlags(0)
 	var pattern string
 
 	stat, _ := os.Stdin.Stat()
