@@ -4,7 +4,7 @@ CFLAGS=-Wall
 LDFLAGS=
 BIN=/usr/local/bin
 
-TARG=vcs
+TARG=repo
 OFILES=acme-git.o
 HFILES=a.h
 
