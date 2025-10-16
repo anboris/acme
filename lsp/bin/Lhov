@@ -1,11 +1,28 @@
 #!/usr/local/plan9/bin/rc
 exec L hov $* | awk '
 /^\[`.*` on pkg\.go\.dev\]/ {
-    # Extract just the URL from the markdown link
-    start = index($0, "(")
-    end = index($0, ")")
-    if (start > 0 && end > start) {
-        url = substr($0, start+1, end-start-1)
+    # Find the last occurrence of ( and ) to get the URL
+    url_start = length($0)
+    url_end = 0
+
+    # Work backwards to find the last )
+    for (i = length($0); i > 0; i--) {
+        if (substr($0, i, 1) == ")") {
+            url_end = i
+            break
+        }
+    }
+
+    # Now find the matching ( before it
+    for (i = url_end; i > 0; i--) {
+        if (substr($0, i, 1) == "(") {
+            url_start = i
+            break
+        }
+    }
+
+    if (url_start < url_end) {
+        url = substr($0, url_start + 1, url_end - url_start - 1)
         print url
     }
     next
